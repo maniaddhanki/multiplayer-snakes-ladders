@@ -36,6 +36,7 @@ const validateRequest = (req, res, next) => {
 
 const joinHandler = (sessions) => (req, res, next) => {
   const name = req.body.name;
+  const game = req.game;
 
   if (!name) {
     res.statusCode = 405;
@@ -47,6 +48,8 @@ const joinHandler = (sessions) => (req, res, next) => {
   const sessionId = generateSessionId();
   const session = createSession(name, sessionId);
   sessions[sessionId] = session;
+
+  game.addPlayer(name, sessionId);
 
   res.setHeader('Set-Cookie', `sessionId=${sessionId}`);
   res.redirect('/');

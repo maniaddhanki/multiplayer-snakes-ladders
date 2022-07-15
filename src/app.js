@@ -8,8 +8,9 @@ const { authenticatePlayer } = require('./handlers/authenticatePlayer.js');
 
 const createApp = ({ root = './public', game }, sessions = {}) => {
   const app = express();
+
   app.use(express.urlencoded({ extended: true }));
-  app.use(injectCookie, injectSession(sessions));
+  app.use(injectCookie, injectSession(sessions), injectGame(game));
   app.get('/join', showjoiningPage);
   app.post('/join', validateRequest, joinHandler(sessions));
   app.use(authenticatePlayer);
@@ -17,7 +18,7 @@ const createApp = ({ root = './public', game }, sessions = {}) => {
     console.log(req.method, req.url);
     next();
   })
-  app.use(express.static(root), injectGame(game));
+  app.use(express.static(root));
   app.get('/roll', play);
   return app;
 };

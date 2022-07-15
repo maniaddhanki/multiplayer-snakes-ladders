@@ -1,30 +1,55 @@
+const registerPlayer = (name, id) => {
+  return { name, currPos: 0, id };
+};
+
 class Game {
   #board;
-  #player;
+  #players;
+  #currPlayerIndex;
 
-  constructor(board, player) {
+  constructor(board) {
     this.#board = board;
-    this.#player = player;
+    this.#players = [];
+    this.#currPlayerIndex = 0
   }
 
   #rollDice() {
     return Math.ceil(Math.random() * 6);
   }
 
-  #updatePlayerPosition(newPos) {
-    this.#player.currentPosition = newPos;
+  #updatePlayerPosition(player, newPos) {
+    player.currPos = newPos;
   }
 
   #isOver() {
-    return this.#board.isTargetReached(this.#player.currentPosition);
+    return this.#players.some(player =>
+      this.#board.isTargetReached(player.currPos));
+  }
+
+  #updateCurrPlayer() {
+    const newIndex = this.#currPlayerIndex + 1;
+    this.#currPlayerIndex = newIndex < this.#players.length ? newIndex : 0;
+  }
+
+  #getCurrentPlayer() {
+    const currPlayer = this.#players[this.#currPlayerIndex];
+    this.#updateCurrPlayer();
+    return currPlayer;
+  }
+
+  addPlayer(name, id) {
+    const player = registerPlayer(name, id);
+    this.#players.push(player);
   }
 
   play() {
+    const player = this.#getCurrentPlayer();
     const diceValue = this.#rollDice();
-    const currPos = this.#player.currentPosition;
+    const currPos = player.currPos;
     const newPos = this.#board.getPosition(currPos, diceValue);
-    this.#updatePlayerPosition(newPos);
+    this.#updatePlayerPosition(player, newPos);
     const gameOver = this.#isOver();
+    console.log(this.#players);
     return { diceValue, currPos, newPos, gameOver };
   }
 }
