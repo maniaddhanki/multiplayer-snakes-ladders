@@ -77,10 +77,19 @@
 //   handleWinnerMsg(isWon);
 // };
 
+const moveToken = ({ prevPos, currPos }) => {
+  const prevTile = document.getElementById(prevPos);
+  const currTile = document.getElementById(currPos);
+  prevTile.innerText = '';
+  currTile.innerText = '⚫️';
+};
+
 const updateImage = (xhr) => () => {
   const dice = document.querySelector('#dice');
   const roll = JSON.parse(xhr.response);
+  console.log(roll);
   dice.src = roll.img;
+  moveToken(roll);
 };
 
 const rollDice = () => {
