@@ -1,6 +1,6 @@
 const express = require('express');
 const { injectSession } = require('./handlers/sessionHandler.js');
-const { play } = require('./handlers/gameHandler.js');
+const { play, validatePlayer } = require('./handlers/gameHandler.js');
 const { injectGame } = require('./handlers/injectGame.js');
 const { joinHandler, showjoiningPage, validateRequest } = require('./handlers/joinHandler.js');
 const { injectCookie } = require('./handlers/cookiesHandler.js');
@@ -19,7 +19,7 @@ const createApp = ({ root = './public', game }, sessions = {}) => {
     next();
   })
   app.use(express.static(root));
-  app.get('/roll', play);
+  app.get('/roll', validatePlayer, play);
   return app;
 };
 

@@ -33,13 +33,17 @@ class Game {
 
   #getCurrentPlayer() {
     const currPlayer = this.#players[this.#currPlayerIndex];
-    this.#updateCurrPlayer();
     return currPlayer;
   }
 
   addPlayer(name, id) {
     const player = registerPlayer(name, id);
     this.#players.push(player);
+  }
+
+  validateTurn(id) {
+    const currPlayer = this.getCurrentPlayer();
+    return currPlayer.id === id;
   }
 
   play() {
@@ -50,6 +54,7 @@ class Game {
     this.#updatePlayerPosition(player, newPos);
     const gameOver = this.#isOver();
     console.log(this.#players);
+    this.#updateCurrPlayer();
     return { diceValue, currPos, newPos, gameOver };
   }
 }
