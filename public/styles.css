@@ -1,0 +1,43 @@
+body {
+  width: 540px;
+  margin: 0 auto;
+}
+
+.board {
+  background-image: url('images/snakes-ladders.jpg');
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+}
+
+.even-row {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.dice-img {
+  margin: 100px;
+  width: 100px;
+  aspect-ratio: 1;
+}
+
+#dice {
+  width: 100%;
+  aspect-ratio: 1;
+}
