@@ -28,6 +28,10 @@ class Board {
     const newPos = currPos + diceFace;
     return this.#isValidMove(newPos) ? this.#next(newPos) : currPos;
   }
+
+  isTargetReached(position) {
+    return position === this.#target;
+  }
 }
 
 module.exports = { Board };

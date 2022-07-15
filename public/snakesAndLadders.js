@@ -18,11 +18,21 @@ const getDiceFace = (diceValue) => {
   return faces[diceValue];
 };
 
+const displayWin = () => {
+  const winningMsg = document.querySelector('#winning-msg');
+  console.log(winningMsg);
+  winningMsg.style.visibility = 'visible';
+};
+
 const updateGame = (xhr) => () => {
   const dice = document.querySelector('#dice');
   const result = JSON.parse(xhr.response);
   dice.src = getDiceFace(result.diceValue);
   moveToken(result);
+
+  if (result.gameOver) {
+    displayWin()
+  };
 };
 
 const rollDice = () => {
