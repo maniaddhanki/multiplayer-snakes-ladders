@@ -16,4 +16,5 @@ class Dice {
     return this.#faces[face];
   }
 }
-;
+
+module.exports = { Dice };

@@ -77,11 +77,22 @@
 //   handleWinnerMsg(isWon);
 // };
 
-// const initGame = () => {
-//   const board = new Board(snakes(), ladders(), 30);
-//   const game = new Game(board);
-//   const dice = document.getElementById('dice');
-//   dice.onclick = () => gameRound(game);
-// };
+const updateImage = (xhr) => () => {
+  const dice = document.querySelector('#dice');
+  const roll = JSON.parse(xhr.response);
+  dice.src = roll.img;
+};
 
-// window.onload = initGame;
+const rollDice = () => {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = updateImage(xhr);
+  xhr.open('get', '/roll')
+  xhr.send();
+};
+
+const initGame = () => {
+  const dice = document.querySelector('#dice');
+  dice.onclick = rollDice;
+};
+
+window.onload = initGame; 
