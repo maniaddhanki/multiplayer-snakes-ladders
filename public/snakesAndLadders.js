@@ -1,100 +1,33 @@
-// const snakes = () => {
-//   return {
-//     27: 1,
-//     21: 9,
-//     17: 4,
-//     19: 7
-//   }
-// };
-
-// const ladders = () => {
-//   return {
-//     11: 26,
-//     3: 22,
-//     5: 8,
-//     20: 29
-//   }
-// };
-
-// const editHtmlParamById = (id, param, value) => {
-//   const element = document.getElementById(id);
-//   if (!element) {
-//     return;
-//   }
-//   element[param] = value;
-// };
-
-// const handleWinnerMsg = isWon => {
-//   if (isWon) {
-//     document.getElementById('winning-msg').style.visibility = 'visible';
-//   }
-// };
-
-// const pathCycler = (intervelId) => {
-//   let index = 0;
-//   return (path) => {
-//     const currentPosition = path[index];
-//     const next = path[++index];
-
-//     if (!next) { return false };
-
-//     editHtmlParamById(currentPosition, 'innerText', '');
-//     editHtmlParamById(next, 'innerText', '⚫️');
-//     return true;
-//   }
-// };
-
-// const handleDiceMsg = (needToOn) => {
-//   const diceMsg = document.getElementById('dice-msg');
-//   let visibility = 'hidden';
-//   if (needToOn) {
-//     visibility = 'visible';
-//   }
-//   diceMsg.style.visibility = visibility;
-// };
-
-// const gameRound = (game) => {
-//   if (game.isPaused) {
-//     handleDiceMsg(false);
-//     return;
-//   };
-
-//   const { path, img, isWon } = game.play();
-//   game.pause();
-
-//   editHtmlParamById('dice', 'src', img);
-
-//   const moveToken = pathCycler();
-
-//   const intervelId = setInterval(() => {
-//     if (!moveToken(path)) {
-//       clearInterval(intervelId);
-//       game.resume();
-//       handleDiceMsg(true);
-//     }
-//   }, 500);
-
-//   handleWinnerMsg(isWon);
-// };
-
-const moveToken = ({ prevPos, currPos }) => {
-  const prevTile = document.getElementById(prevPos);
-  const currTile = document.getElementById(currPos);
-  prevTile.innerText = '';
-  currTile.innerText = '⚫️';
+const moveToken = ({ currPos, newPos }) => {
+  const presentPosition = currPos || 1;
+  const currTile = document.getElementById(presentPosition);
+  const newTile = document.getElementById(newPos);
+  currTile.innerText = '';
+  newTile.innerText = '⚫️';
 };
 
-const updateImage = (xhr) => () => {
+const getDiceFace = (diceValue) => {
+  faces = [,
+    'images/1face.jpg',
+    'images/2face.jpg',
+    'images/3face.jpg',
+    'images/4face.jpg',
+    'images/5face.jpg',
+    'images/6face.jpg',
+  ];
+  return faces[diceValue];
+};
+
+const updateGame = (xhr) => () => {
   const dice = document.querySelector('#dice');
-  const roll = JSON.parse(xhr.response);
-  console.log(roll);
-  dice.src = roll.img;
-  moveToken(roll);
+  const result = JSON.parse(xhr.response);
+  dice.src = getDiceFace(result.diceValue);
+  moveToken(result);
 };
 
 const rollDice = () => {
   const xhr = new XMLHttpRequest();
-  xhr.onload = updateImage(xhr);
+  xhr.onload = updateGame(xhr);
   xhr.open('get', '/roll')
   xhr.send();
 };

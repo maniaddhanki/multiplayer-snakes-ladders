@@ -5,11 +5,11 @@
  - [ ] determine win
  - [ ] maintain a log of player moves
  - [ ] add sessions
- - [ ] remove hardcoded dependencies
 
 
 **Done :**
 
+ - [x] remove hardcoded dependencies
  - [x] add max position.
  - [x] server should know snakes and ladders of game
  - [x] make dice roll by server and send result as response
