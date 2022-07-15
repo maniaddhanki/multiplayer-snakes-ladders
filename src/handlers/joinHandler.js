@@ -4,8 +4,8 @@ const joiningPage = `<html>
 </head>
 <body>
   <form action="/join" method="post">
-    <label for="username">Username</label>
-  <input type="text" name="username" id="name">
+    <label for="name">name</label>
+  <input type="text" name="name" id="name">
   <input type="submit" value="submit">
   </form>
 </body>
@@ -35,16 +35,17 @@ const validateRequest = (req, res, next) => {
 };
 
 const joinHandler = (sessions) => (req, res, next) => {
-  const username = req.body.username;
+  const name = req.body.name;
 
-  if (!username) {
+  if (!name) {
     res.statusCode = 405;
+    console.log(name);
     res.end();
     return;
   }
 
   const sessionId = generateSessionId();
-  const session = createSession(username, sessionId);
+  const session = createSession(name, sessionId);
   sessions[sessionId] = session;
 
   res.setHeader('Set-Cookie', `sessionId=${sessionId}`);
