@@ -2,12 +2,16 @@
 
 **Todo :**
 
- - [ ] maintain a log of player moves
- - [ ] add sessions
+ - [ ] wait until two players joins
+ - [ ] after two players joined give turn for 1st player
+ - [ ] add player after setting cookie
+ - [ ] maintain a log of players
 
 
 **Done :**
 
+ - [x] add sessions
+ - [x] add join game
  - [x] determine win
  - [x] remove hardcoded dependencies
  - [x] add max position.
