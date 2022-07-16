@@ -18,7 +18,7 @@ const createApp = ({ root = './public', game }, sessions = {}) => {
   app.use(injectCookie, injectSession(sessions), injectGame(game));
   app.get('/join', showjoiningPage);
   app.post('/join', validateRequest, joinHandler(sessions));
-  app.get('/game-state', gameStatus);
+  app.get('/status', gameStatus);
   app.use(authenticatePlayer);
   app.use(logRequest);
   app.use(express.static(root));

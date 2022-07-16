@@ -1,9 +1,12 @@
-const moveToken = ({ currPos, newPos }) => {
-  const presentPosition = currPos || 1;
-  const currTile = document.getElementById(presentPosition);
-  const newTile = document.getElementById(newPos);
-  currTile.innerText = '';
-  newTile.innerText = '⚫️';
+const moveToken = ({ currPos, name, color }) => {
+
+  const parent = document.getElementById(name)?.parentElement;
+  if (parent) {
+    parent.innerText = null;
+  }
+  const token = playerToken(name, color);
+  const newPos = document.getElementById(currPos);
+  newPos.appendChild(token);
 };
 
 const getDiceFace = (diceValue) => {
@@ -24,11 +27,21 @@ const displayWin = () => {
   winningMsg.style.visibility = 'visible';
 };
 
+const playerToken = (playerName, color) => {
+  const token = document.createElement('div');
+  token.id = playerName;
+  token.style.background = color;
+  token.style.height = '30px';
+  token.style.width = '30px';
+  token.style.borderRadius = '50%';
+  return token;
+};
+
 const updateGame = (xhr) => () => {
   const dice = document.querySelector('#dice');
   const result = JSON.parse(xhr.response);
   dice.src = getDiceFace(result.diceValue);
-  moveToken(result);
+  moveToken(result.player);
 
   if (result.gameOver) {
     displayWin()
@@ -36,15 +49,32 @@ const updateGame = (xhr) => () => {
 };
 
 const rollDice = () => {
+  console.log('clicked');
   const xhr = new XMLHttpRequest();
   xhr.onload = updateGame(xhr);
   xhr.open('get', '/roll')
   xhr.send();
 };
 
-const initGame = () => {
-  const dice = document.querySelector('#dice');
-  dice.onclick = rollDice;
+const displayGame = (xhr) => () => {
+  const { positions } = JSON.parse(xhr.response);
+  positions.forEach(moveToken);
 };
 
-window.onload = initGame; 
+const getStatus = () => {
+  setInterval(() => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = displayGame(xhr);
+    xhr.open('get', '/status')
+    xhr.send();
+  }, 500);
+};
+
+const initGame = () => {
+  console.log('in init');
+  const dice = document.querySelector('#dice');
+  dice.onclick = rollDice;
+  getStatus();
+};
+
+window.onload = initGame;

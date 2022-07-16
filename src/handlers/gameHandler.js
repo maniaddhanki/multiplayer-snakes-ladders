@@ -7,9 +7,13 @@ const validatePlayer = (req, res, next) => {
   res.end();
 };
 
+const gameStatus = (req, res) => {
+  res.json(req.game.status());
+};
+
 const play = (req, res) => {
   const turnResult = req.game.play();
   res.json(turnResult);
 };
 
-module.exports = { play, validatePlayer };
+module.exports = { play, validatePlayer, gameStatus };

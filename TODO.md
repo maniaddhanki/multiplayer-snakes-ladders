@@ -2,13 +2,13 @@
 
 **Todo :**
 
- - [ ] should handle only current player's request
  - [ ] wait until two players joins
  - [ ] after two players joined give turn for 1st player
 
 
 **Done :**
 
+ - [x] should handle only current player's request
  - [x] add player after setting cookie
  - [x] maintain a log of players
  - [x] add sessions
