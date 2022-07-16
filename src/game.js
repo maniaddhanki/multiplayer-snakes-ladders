@@ -42,8 +42,17 @@ class Game {
   }
 
   validateTurn(id) {
-    const currPlayer = this.getCurrentPlayer();
+    const currPlayer = this.#getCurrentPlayer();
     return currPlayer.id === id;
+  }
+
+  status() {
+    const positions = this.#players.map(player => {
+      const { name, currPos } = player;
+      return { name, currPos };
+    });
+    const currPlayer = this.#getCurrentPlayer();
+    return { positions, currPlayer };
   }
 
   play() {
