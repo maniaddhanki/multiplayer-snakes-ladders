@@ -7,13 +7,12 @@ const { injectGame } = require('./handlers/injectGame.js');
 const { joinHandler, showjoiningPage, validateRequest } = require('./handlers/joinHandler.js');
 const { authenticatePlayer } = require('./handlers/authenticatePlayer.js');
 
-const createApp = ({ root = './public', game }, sessions = {}) => {
+const createApp = ({ root = './public', game, keys }, sessions = {}) => {
   const app = express();
 
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(), cookieSession({
-    name: 'sessionId',
-    keys: ['key1', 'key2']
+    name: 'sessionId', keys
   }));
   app.use(injectGame(game));
   app.get('/join', showjoiningPage);

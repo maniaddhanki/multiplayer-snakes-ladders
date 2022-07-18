@@ -4,15 +4,15 @@
 
  - [ ] Show win msg to both players
  - [ ] Show dice and current player for every turn
- - [ ] Notify turn of player
- - [ ] wait until two players joins
- - [ ] after two players joined give turn for 1st player
+ - [ ] Wait until two players join
+ - [ ] After two players joined give turn for 1st player
  - [ ] Deal with set headers error
- - [ ] Deal player turn error in front end
 
 
 **Done :**
 
+ - [x] Notify turn of player
+ - [x] Deal player turn error in front end
  - [x] Stop the game, if someone wins
  - [x] Add morgan ,cookie-parser and cookie-session
  - [x] should handle only current player's request

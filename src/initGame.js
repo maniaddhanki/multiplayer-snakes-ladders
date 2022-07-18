@@ -19,18 +19,10 @@ const ladders = () => {
   }
 };
 
-const player = () => {
-  return {
-    name: 'mani',
-    color: 'black',
-    currentPosition: 0
-  };
-}
-
 const initGame = () => {
   const target = 30;
   const board = new Board(snakes(), ladders(), target);
-  const game = new Game(board, player());
+  const game = new Game(board);
   return game;
 };
 

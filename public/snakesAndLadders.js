@@ -6,6 +6,9 @@ const moveToken = ({ currPos, name, color }) => {
   }
   const token = playerToken(name, color);
   const newPos = document.getElementById(currPos);
+  if (!newPos) {
+    return;
+  }
   newPos.appendChild(token);
 };
 
@@ -23,7 +26,6 @@ const getDiceFace = (diceValue) => {
 
 const displayWin = () => {
   const winningMsg = document.querySelector('#winning-msg');
-  console.log(winningMsg);
   winningMsg.style.visibility = 'visible';
 };
 
@@ -39,12 +41,17 @@ const playerToken = (playerName, color) => {
 
 const updateGame = (xhr) => () => {
   const dice = document.querySelector('#dice');
-  const result = JSON.parse(xhr.response);
+  let result;
+  try {
+    result = JSON.parse(xhr.response);
+  } catch (error) {
+    return;
+  }
   dice.src = getDiceFace(result.diceValue);
   moveToken(result.player);
 
   if (result.gameOver) {
-    displayWin()
+    displayWin();
   };
 };
 
@@ -76,7 +83,6 @@ const getStatus = () => {
 };
 
 const initGame = () => {
-  console.log('in init');
   const dice = document.querySelector('#dice');
   dice.onclick = rollDice;
   getStatus();
