@@ -56,15 +56,18 @@ const rollDice = () => {
   xhr.send();
 };
 
-const displayGame = (xhr) => () => {
-  const { positions } = JSON.parse(xhr.response);
+const displayGame = (xhr, interval) => () => {
+  const { positions, gameOver } = JSON.parse(xhr.response);
   positions.forEach(moveToken);
+  if (gameOver) {
+    clearInterval(interval);
+  }
 };
 
 const getStatus = () => {
-  setInterval(() => {
+  const interval = setInterval(() => {
     const xhr = new XMLHttpRequest();
-    xhr.onload = displayGame(xhr);
+    xhr.onload = displayGame(xhr, interval);
     xhr.open('get', '/status')
     xhr.send();
   }, 500);

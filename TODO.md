@@ -3,14 +3,16 @@
 **Todo :**
 
  - [ ] Show dice and current player for every turn
- - [ ] Stop the game, if someone wins
  - [ ] Notify turn of player
  - [ ] wait until two players joins
  - [ ] after two players joined give turn for 1st player
+ - [ ] Deal with set headers error
+ - [ ] Deal player turn error in front end
 
 
 **Done :**
 
+ - [x] Stop the game, if someone wins
  - [x] Add morgan ,cookie-parser and cookie-session
  - [x] should handle only current player's request
  - [x] add player after setting cookie

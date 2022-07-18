@@ -8,7 +8,11 @@ const validatePlayer = (req, res, next) => {
 };
 
 const gameStatus = (req, res) => {
-  res.json(req.game.status());
+  const gameStatus = req.game.status();
+  if (gameStatus.gameOver) {
+    req.session = null;
+  }
+  res.json(gameStatus);
 };
 
 const play = (req, res) => {

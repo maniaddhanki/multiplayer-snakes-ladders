@@ -7,11 +7,13 @@ class Game {
   #board;
   #players;
   #currPlayerIndex;
+  #gameOver;
 
   constructor(board) {
     this.#board = board;
     this.#players = [];
-    this.#currPlayerIndex = 0
+    this.#currPlayerIndex = 0;
+    this.#gameOver = false;
   }
 
   #rollDice() {
@@ -22,9 +24,10 @@ class Game {
     player.currPos = newPos;
   }
 
-  #isOver() {
-    return this.#players.some(player =>
+  #updateGameStatus() {
+    const result = this.#players.some(player =>
       this.#board.isTargetReached(player.currPos));
+    this.#gameOver = result;
   }
 
   #updateCurrPlayer() {
@@ -55,7 +58,7 @@ class Game {
       return { name, currPos, color };
     });
     const currPlayer = this.#getCurrentPlayer();
-    return { positions, currPlayer };
+    return { positions, currPlayer, gameOver: this.#gameOver };
   }
 
   play() {
@@ -64,11 +67,9 @@ class Game {
     const currPos = player.currPos;
     const newPos = this.#board.getPosition(currPos, diceValue);
     this.#updatePlayerPosition(player, newPos);
-    const gameOver = this.#isOver();
-    console.log(this.#players);
+    this.#updateGameStatus();
     this.#updateCurrPlayer();
-    console.log(diceValue, player, gameOver);
-    return { diceValue, player, gameOver };
+    return { diceValue, player, gameOver: this.#gameOver };
   }
 }
 
