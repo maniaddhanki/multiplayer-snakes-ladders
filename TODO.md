@@ -2,6 +2,7 @@
 
 **Todo :**
 
+ - [ ] Show win msg to both players
  - [ ] Show dice and current player for every turn
  - [ ] Notify turn of player
  - [ ] wait until two players joins

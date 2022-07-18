@@ -1,5 +1,5 @@
 const registerPlayer = (name, playerIndex) => {
-  const tokenColors = ['red', 'black', 'blue'];
+  const tokenColors = ['black', 'blue', 'red'];
   return { name, currPos: 0, id: playerIndex, color: tokenColors[playerIndex] };
 };
 

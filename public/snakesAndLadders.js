@@ -57,7 +57,9 @@ const rollDice = () => {
 };
 
 const displayGame = (xhr, interval) => () => {
-  const { positions, gameOver } = JSON.parse(xhr.response);
+  const { positions, gameOver, currPlayer } = JSON.parse(xhr.response);
+  const dice = document.getElementById('dice-msg');
+  dice.innerText = `${currPlayer.name}'s turn`
   positions.forEach(moveToken);
   if (gameOver) {
     clearInterval(interval);
