@@ -1,6 +1,6 @@
-const registerPlayer = (name, id, playerIndex) => {
+const registerPlayer = (name, playerIndex) => {
   const tokenColors = ['red', 'black', 'blue'];
-  return { name, currPos: 0, id, color: tokenColors[playerIndex] };
+  return { name, currPos: 0, id: playerIndex, color: tokenColors[playerIndex] };
 };
 
 class Game {
@@ -37,10 +37,11 @@ class Game {
     return currPlayer;
   }
 
-  addPlayer(name, id) {
+  addPlayer(name) {
     const playerIndex = this.#players.length;
-    const player = registerPlayer(name, id, playerIndex);
+    const player = registerPlayer(name, playerIndex);
     this.#players.push(player);
+    return playerIndex;
   }
 
   validateTurn(id) {
@@ -66,6 +67,7 @@ class Game {
     const gameOver = this.#isOver();
     console.log(this.#players);
     this.#updateCurrPlayer();
+    console.log(diceValue, player, gameOver);
     return { diceValue, player, gameOver };
   }
 }

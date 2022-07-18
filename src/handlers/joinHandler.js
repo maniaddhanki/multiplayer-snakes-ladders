@@ -16,17 +16,8 @@ const showjoiningPage = (req, res) => {
   res.end(joiningPage);
 };
 
-const generateSessionId = () => {
-  return new Date().getTime();
-};
-
-const createSession = (username, sessionId) => {
-  const time = new Date();
-  return { username, time, sessionId };
-};
-
 const validateRequest = (req, res, next) => {
-  if (req.session) {
+  if (req.session.isPopulated) {
     res.redirect('/');
     res.end('already joined');
     return;
@@ -34,7 +25,7 @@ const validateRequest = (req, res, next) => {
   next();
 };
 
-const joinHandler = (sessions) => (req, res, next) => {
+const joinHandler = (req, res, next) => {
   const name = req.body.name;
   const game = req.game;
 
@@ -45,13 +36,9 @@ const joinHandler = (sessions) => (req, res, next) => {
     return;
   }
 
-  const sessionId = generateSessionId();
-  const session = createSession(name, sessionId);
-  sessions[sessionId] = session;
-
-  game.addPlayer(name, sessionId);
-
-  res.setHeader('Set-Cookie', `sessionId=${sessionId}`);
+  req.session.name = name;
+  const playerId = game.addPlayer(name);
+  req.session.playerId = playerId;
   res.redirect('/');
   res.end();
 };

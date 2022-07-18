@@ -1,7 +1,7 @@
 const validatePlayer = (req, res, next) => {
   const game = req.game;
-  const { sessionId } = req.session;
-  if (game.validateTurn(sessionId)) {
+  const { playerId } = req.session;
+  if (game.validateTurn(playerId)) {
     next();
   }
   res.end();

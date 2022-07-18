@@ -1,26 +1,26 @@
 const express = require('express');
-const { injectSession } = require('./handlers/sessionHandler.js');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const { play, validatePlayer, gameStatus } = require('./handlers/gameHandler.js');
 const { injectGame } = require('./handlers/injectGame.js');
 const { joinHandler, showjoiningPage, validateRequest } = require('./handlers/joinHandler.js');
-const { injectCookie } = require('./handlers/cookiesHandler.js');
 const { authenticatePlayer } = require('./handlers/authenticatePlayer.js');
-
-const logRequest = (req, res, next) => {
-  console.log(req.method, req.url);
-  next();
-};
 
 const createApp = ({ root = './public', game }, sessions = {}) => {
   const app = express();
 
   app.use(express.urlencoded({ extended: true }));
-  app.use(injectCookie, injectSession(sessions), injectGame(game));
+  app.use(cookieParser(), cookieSession({
+    name: 'sessionId',
+    keys: ['key1', 'key2']
+  }));
+  app.use(injectGame(game));
   app.get('/join', showjoiningPage);
-  app.post('/join', validateRequest, joinHandler(sessions));
+  app.post('/join', validateRequest, joinHandler);
   app.get('/status', gameStatus);
   app.use(authenticatePlayer);
-  app.use(logRequest);
+  app.use(morgan('tiny'));
   app.use(express.static(root));
   app.get('/roll', validatePlayer, play);
   return app;
